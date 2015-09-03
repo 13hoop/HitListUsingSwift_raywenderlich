@@ -7,13 +7,17 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
     // 姓名们...
-    var names = [String]()
+//    var names = [String]()
+    // Change “names” to “people” and [String] to [NSManagedObject]
+    // 使用强大的NSManagedObject实例，来替代简单的string
+    var people = [NSManagedObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +40,8 @@ class ViewController: UIViewController {
         //  － 保存
         let saveAction = UIAlertAction(title: "Save", style: UIAlertActionStyle.Default) { (_) -> Void in
             let textField = alert.textFields![0] as! UITextField
-            self.names.append(textField.text)
+//            self.names.append(textField.text)
+            self.saveName(textField.text)
             self.tableView.reloadData()
         }
         //  － 取消
@@ -57,6 +62,13 @@ class ViewController: UIViewController {
         // c 展现alertController
         presentViewController(alert, animated: true, completion: nil)
     }
+    
+    /*
+        保存输入的姓名－－－coredata
+    */
+    func saveName(name: String) {
+        print("保存姓名，不光只是load到cell，更要对应保存到entity中...")
+    }
 
 }
 
@@ -64,14 +76,17 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return names.count
+//        return names.count
+        return people.count
     }
     
     // dequeues table view cells and populates them with the corresponding string in the names array
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as! UITableViewCell
         
-        cell.textLabel?.text = names[indexPath.row]
+//        cell.textLabel?.text = names[indexPath.row]
+        let person = people[indexPath.row]
+        cell.textLabel?.text = person.valueForKey("name") as? String
         
         return cell
     }

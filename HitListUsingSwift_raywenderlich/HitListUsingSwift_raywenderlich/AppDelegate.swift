@@ -95,7 +95,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
 
     // MARK: - Core Data Saving support
-
     func saveContext () {
         if let moc = self.managedObjectContext {
             var error: NSError? = nil
